@@ -20,7 +20,7 @@ public class DocumentsController : Controller
 
     [HttpGet("{id}")]
     [DisableRequestSizeLimit]
-    [Authorize($"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)},{nameof(UserRole.Receptionist)}")]
+    [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)},{nameof(UserRole.Receptionist)}")]
     public async Task<IActionResult> Get(string id)
     {
         var document = await _documentService.GetByIdAsync(id);
@@ -29,28 +29,28 @@ public class DocumentsController : Controller
 
     [HttpGet("/api/result/{id}/documents")]
     [DisableRequestSizeLimit]
-    [Authorize($"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)}")]
-    public async Task<IActionResult> GetByPatientId(string id)
+    [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)}")]
+    public async Task<IActionResult> GetByResultId(string id)
     {
-        var document = await _documentService.GetByPatientAsyncId(id);
+        var document = await _documentService.GetByResultIdAsync(id);
         return Ok(document);
     }
 
-    [HttpPost(nameof(DocumentTypeEnum.Photo))]
+    [HttpPost(nameof(DocumentType.Photo))]
     [DisableRequestSizeLimit]
-    [Authorize($"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)},{nameof(UserRole.Receptionist)}")]
-    public async Task<IActionResult> CreatePhoto([FromBody] DocumentForCreatedDto model)
+    [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)},{nameof(UserRole.Receptionist)}")]
+    public async Task<IActionResult> CreatePhoto([FromBody] PhotoForCreatedDto model)
     {
-        var document = await _documentService.CreateAsync(model, DocumentTypeEnum.Photo.ToString("D"));
+        var document = await _documentService.CreatePhotoAsync(model);
         return Created("", document);
     }
 
-    [HttpPost(nameof(DocumentTypeEnum.Document))]
+    [HttpPost(nameof(DocumentType.Document))]
     [DisableRequestSizeLimit]
-    [Authorize($"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)},{nameof(UserRole.Receptionist)}")]
+    [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)},{nameof(UserRole.Receptionist)}")]
     public async Task<IActionResult> CreateDocument([FromBody] DocumentForCreatedDto model)
     {
-        var document = await _documentService.CreateAsync(model, DocumentTypeEnum.Document.ToString("D"));
+        var document = await _documentService.CreateDocumentAsync(model);
         return Created("", document);
     }
 }

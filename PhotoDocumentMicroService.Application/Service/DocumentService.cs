@@ -20,19 +20,19 @@ public class DocumentService : IDocumentService
         _mapper = mapper;
     }
 
-    public async Task<DocumentDto> GetByIdAsync(string id) // account|office 
+    public async Task<PhotoDto> GetByIdAsync(string id)
     {
-        var doc = await _documentRepository.GetEntityAsync(DocumentTypeEnum.Document.ToString("D"), id);
+        var doc = await _documentRepository.GetEntityAsync(DocumentType.Document.ToString("D"), id);
         var blobDoc = _blobRepository.DownloadAsync(doc.FileName);
 
-        var docDto = _mapper.Map<DocumentDto>(doc);
+        var docDto = _mapper.Map<PhotoDto>(doc);
         docDto.Value = (await blobDoc).ToArray();
         return docDto;
     }
 
-    public async Task<List<DocumentDto>> GetByPatientAsyncId(string resultId) // schedule
+    public async Task<List<DocumentDto>> GetByResultIdAsync(string resultId)
     {
-        var doc = _documentRepository.GetEntityByPatientId(resultId);
+        var doc = _documentRepository.GetEntityByResultId(resultId);
 
         var docDto = _mapper.Map<List<DocumentDto>>(doc);
         foreach (var item in docDto)
@@ -42,13 +42,24 @@ public class DocumentService : IDocumentService
         return docDto;
     }
 
-    public async Task<DocumentDto> CreateAsync(DocumentForCreatedDto model, string docType) // account|office|schedule
+    public async Task<PhotoDto> CreatePhotoAsync(PhotoForCreatedDto model)
     {
         var doc = _mapper.Map<Document>(model);
 
-        await _blobRepository.UploadAsync(new MemoryStream(model.Value), model.FileName);
+        doc.FileName = await _blobRepository.UploadAsync(new MemoryStream(model.Value), model.FileName);
         doc.RowKey = Guid.NewGuid().ToString();
-        doc.PartitionKey = docType;
+        doc.PartitionKey = DocumentType.Photo.ToString("D");
+        var document = _mapper.Map<PhotoDto>(await _documentRepository.CreateEntityAsync(doc));
+        return document;
+    }
+
+    public async Task<DocumentDto> CreateDocumentAsync(DocumentForCreatedDto model)
+    {
+        var doc = _mapper.Map<Document>(model);
+
+        doc.FileName = await _blobRepository.UploadAsync(new MemoryStream(model.Value), model.FileName);
+        doc.RowKey = Guid.NewGuid().ToString();
+        doc.PartitionKey = DocumentType.Document.ToString("D");
         var document = _mapper.Map<DocumentDto>(await _documentRepository.CreateEntityAsync(doc));
         return document;
     }
