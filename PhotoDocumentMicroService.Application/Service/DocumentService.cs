@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PhotoDocumentMicroService.Application.DTO;
+using PhotoDocumentMicroService.Application.Dto;
 using PhotoDocumentMicroService.Application.Service.Abstractions;
 using PhotoDocumentMicroService.Domain.Entities.Enums;
 using PhotoDocumentMicroService.Domain.Entities.Models;
@@ -9,8 +9,8 @@ namespace PhotoDocumentMicroService.Application.Service;
 
 public class DocumentService : IDocumentService
 {
-    private readonly IDocumentRepository _documentRepository;
     private readonly IBlobRepository _blobRepository;
+    private readonly IDocumentRepository _documentRepository;
     private readonly IMapper _mapper;
 
     public DocumentService(IDocumentRepository documentRepository, IBlobRepository blobRepository, IMapper mapper)
@@ -35,10 +35,7 @@ public class DocumentService : IDocumentService
         var doc = _documentRepository.GetEntityByResultId(resultId);
 
         var docDto = _mapper.Map<List<DocumentDto>>(doc);
-        foreach (var item in docDto)
-        {
-            item.Value = (await _blobRepository.DownloadAsync(item.FileName)).ToArray();
-        }
+        foreach (var item in docDto) item.Value = (await _blobRepository.DownloadAsync(item.FileName)).ToArray();
         return docDto;
     }
 

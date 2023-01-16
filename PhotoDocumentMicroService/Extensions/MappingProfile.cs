@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PhotoDocumentMicroService.Application.DTO;
+using PhotoDocumentMicroService.Application.Dto;
 using PhotoDocumentMicroService.Domain.Entities.Models;
 
 namespace PhotoDocumentMicroService.Extensions;
@@ -11,7 +11,11 @@ public class MappingProfile : Profile
         CreateMap<Document, DocumentDto>()
             .ForMember(f => f.Id,
                 t => t.MapFrom(r => r.RowKey));
+        CreateMap<Document, PhotoDto>()
+            .ForMember(f => f.Id,
+                t => t.MapFrom(r => r.RowKey));
 
+        CreateMap<Document, PhotoForCreatedDto>().ReverseMap();
         CreateMap<Document, DocumentForCreatedDto>().ReverseMap();
     }
 }

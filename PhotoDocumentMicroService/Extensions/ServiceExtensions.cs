@@ -41,7 +41,7 @@ public static class ServiceExtensions
             clientBuilder.AddBlobServiceClient(configuration.GetValue<string>("StorageConnectionString:blob") ??
                                                throw new NotImplementedException());
             clientBuilder.AddTableServiceClient(configuration.GetValue<string>("StorageConnectionString:blob") ??
-                                               throw new NotImplementedException());
+                                                throw new NotImplementedException());
             clientBuilder.AddQueueServiceClient(configuration.GetValue<string>("StorageConnectionString:queue") ??
                                                 throw new NotImplementedException());
         });
