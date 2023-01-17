@@ -9,13 +9,13 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Document, DocumentDto>()
-            .ForMember(f => f.Id,
-                t => t.MapFrom(r => r.RowKey));
+            .ForMember(documentDto => documentDto.Id,
+                expression => expression.MapFrom(document => document.RowKey));
         CreateMap<Document, PhotoDto>()
-            .ForMember(f => f.Id,
-                t => t.MapFrom(r => r.RowKey));
+            .ForMember(photoDto => photoDto.Id,
+                expression => expression.MapFrom(document => document.RowKey));
 
-        CreateMap<Document, PhotoForCreatedDto>().ReverseMap();
-        CreateMap<Document, DocumentForCreatedDto>().ReverseMap();
+        CreateMap<PhotoForCreatedDto, Document>().ReverseMap();
+        CreateMap<DocumentForCreatedDto, Document>().ReverseMap();
     }
 }
