@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PhotoDocumentMicroService.Application.DTO;
+using PhotoDocumentMicroService.Application.Dto;
 using PhotoDocumentMicroService.Application.Service.Abstractions;
 using PhotoDocumentMicroService.Domain.Entities.Enums;
 
@@ -27,7 +27,7 @@ public class DocumentsController : Controller
         return Ok(document);
     }
 
-    [HttpGet("/api/result/{id}/documents")]
+    [HttpGet("/api/Results/{id}/documents")]
     [DisableRequestSizeLimit]
     [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)}")]
     public async Task<IActionResult> GetByResultId(string id)

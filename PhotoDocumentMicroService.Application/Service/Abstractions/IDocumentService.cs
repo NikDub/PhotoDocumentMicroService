@@ -1,4 +1,4 @@
-﻿using PhotoDocumentMicroService.Application.DTO;
+﻿using PhotoDocumentMicroService.Application.Dto;
 
 namespace PhotoDocumentMicroService.Application.Service.Abstractions;
 

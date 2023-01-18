@@ -8,14 +8,14 @@ namespace PhotoDocumentMicroService.Infrastructure.Repository;
 
 public class BlobRepository : IBlobRepository
 {
-    private readonly IConfiguration _configuration;
     private readonly BlobContainerClient _blobContainerClient;
+
     public BlobRepository(BlobServiceClient blobServiceClient, IConfiguration configuration)
     {
         _blobContainerClient = blobServiceClient.GetBlobContainerClient(configuration["Azure:Blob"]);
-        var createResponse = await _blobContainerClient.CreateIfNotExistsAsync();
-        if (createResponse != null && createResponse.GetRawResponse().Status == HttpStatusCode.Created)
-            await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
+        var createResponse = _blobContainerClient.CreateIfNotExists();
+        if (createResponse != null && createResponse.GetRawResponse().Status == (int)HttpStatusCode.Created)
+            _blobContainerClient.SetAccessPolicy(PublicAccessType.Blob);
     }
 
     public async Task<string> UploadAsync(Stream fileStream, string fileName)
