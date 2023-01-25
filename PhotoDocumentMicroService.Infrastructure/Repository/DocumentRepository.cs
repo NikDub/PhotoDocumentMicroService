@@ -20,7 +20,7 @@ public class DocumentRepository : IDocumentRepository
         return await _tableClient.GetEntityAsync<Document>(type, id);
     }
 
-    public List<Document> GetEntityByResultId(string resultId)
+    public List<Document> GetEntityByResultId(Guid resultId)
     {
         var documents = _tableClient.Query<Document>(r => r.ResultId == resultId);
         return documents.ToList();

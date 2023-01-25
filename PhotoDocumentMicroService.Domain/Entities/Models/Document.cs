@@ -5,7 +5,7 @@ namespace PhotoDocumentMicroService.Domain.Entities.Models;
 
 public class Document : ITableEntity
 {
-    public string ResultId { get; set; }
+    public Guid ResultId { get; set; }
     public string FileName { get; set; }
 
     public string RowKey { get; set; }
