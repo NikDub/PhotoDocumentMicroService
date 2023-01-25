@@ -21,7 +21,7 @@ public class DocumentsController : Controller
     [HttpGet("{id}")]
     [DisableRequestSizeLimit]
     [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)},{nameof(UserRole.Receptionist)}")]
-    public async Task<IActionResult> Get(string id)
+    public async Task<IActionResult> Get(Guid id)
     {
         var document = await _documentService.GetByIdAsync(id);
         return Ok(document);
@@ -30,7 +30,7 @@ public class DocumentsController : Controller
     [HttpGet("/api/Results/{id}/documents")]
     [DisableRequestSizeLimit]
     [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)}")]
-    public async Task<IActionResult> GetByResultId(string id)
+    public async Task<IActionResult> GetByResultId(Guid id)
     {
         var document = await _documentService.GetByResultIdAsync(id);
         return Ok(document);

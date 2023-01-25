@@ -20,9 +20,9 @@ public class DocumentService : IDocumentService
         _mapper = mapper;
     }
 
-    public async Task<PhotoDto> GetByIdAsync(string id)
+    public async Task<PhotoDto> GetByIdAsync(Guid id)
     {
-        var doc = await _documentRepository.GetEntityAsync(DocumentType.Document.ToString("D"), id);
+        var doc = await _documentRepository.GetEntityAsync(DocumentType.Photo.ToString("D"), id.ToString());
         var blobDoc = _blobRepository.DownloadAsync(doc.FileName);
 
         var docDto = _mapper.Map<PhotoDto>(doc);
@@ -30,7 +30,7 @@ public class DocumentService : IDocumentService
         return docDto;
     }
 
-    public async Task<List<DocumentDto>> GetByResultIdAsync(string resultId)
+    public async Task<List<DocumentDto>> GetByResultIdAsync(Guid resultId)
     {
         var doc = _documentRepository.GetEntityByResultId(resultId);
 

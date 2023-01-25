@@ -4,8 +4,8 @@ namespace PhotoDocumentMicroService.Application.Service.Abstractions;
 
 public interface IDocumentService
 {
-    Task<PhotoDto> GetByIdAsync(string id);
-    Task<List<DocumentDto>> GetByResultIdAsync(string resultId);
+    Task<PhotoDto> GetByIdAsync(Guid id);
+    Task<List<DocumentDto>> GetByResultIdAsync(Guid resultId);
     Task<DocumentDto> CreateDocumentAsync(DocumentForCreatedDto model);
     Task<PhotoDto> CreatePhotoAsync(PhotoForCreatedDto model);
 }
