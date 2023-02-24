@@ -12,10 +12,12 @@ public class Program
         builder.Services.ConfigureSwagger();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddCors();
         builder.Services.AddSwaggerGen();
 
 
         var app = builder.Build();
+        app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
         if (app.Environment.IsDevelopment())
         {

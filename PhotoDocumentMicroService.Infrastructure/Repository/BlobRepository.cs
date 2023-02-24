@@ -35,4 +35,10 @@ public class BlobRepository : IBlobRepository
         fileStream.Position = 0;
         return fileStream;
     }
+
+    public string GetUri(string fileName)
+    {
+        var blob = _blobContainerClient.GetBlobClient(fileName);
+        return blob.Uri.ToString();
+    }
 }

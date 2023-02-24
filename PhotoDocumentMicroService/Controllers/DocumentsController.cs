@@ -27,6 +27,15 @@ public class DocumentsController : Controller
         return Ok(document);
     }
 
+    [HttpGet("url/{id}")]
+    [DisableRequestSizeLimit]
+    [Authorize]
+    public async Task<IActionResult> GetUrl(Guid id)
+    {
+        var document = await _documentService.GetUrlByIdAsync(id);
+        return Ok(document);
+    }
+
     [HttpGet("/api/Results/{id}/documents")]
     [DisableRequestSizeLimit]
     [Authorize(Roles = $"{nameof(UserRole.Doctor)},{nameof(UserRole.Patient)}")]

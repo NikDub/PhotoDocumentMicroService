@@ -30,6 +30,12 @@ public class DocumentService : IDocumentService
         return docDto;
     }
 
+    public async Task<string> GetUrlByIdAsync(Guid id)
+    {
+        var doc = await _documentRepository.GetEntityAsync(DocumentType.Photo.ToString("D"), id.ToString());
+        return _blobRepository.GetUri(doc.FileName);
+    }
+
     public async Task<List<DocumentDto>> GetByResultIdAsync(Guid resultId)
     {
         var doc = _documentRepository.GetEntityByResultId(resultId);
